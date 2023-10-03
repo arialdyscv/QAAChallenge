@@ -1,0 +1,784 @@
+{
+	"info": {
+		"_postman_id": "88a07931-6b19-453a-a14d-43a5f1e6e636",
+		"name": "QAA Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17463664"
+	},
+	"item": [
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "allPosts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"function verifyStatusCode(expectedStatusCode) {\r",
+									"    pm.test(`Status code is ${expectedStatusCode}`, function () {\r",
+									"        pm.response.to.have.status(expectedStatusCode);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"function verifyPostsExist() {\r",
+									"    pm.test(\"Existen posts en la respuesta\", function () {\r",
+									"        const responseData = pm.response.json();\r",
+									"        pm.expect(responseData.length).to.be.greaterThan(0);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"function verifyPostsCount(expectedCount) {\r",
+									"    pm.test(\"El número de posts es correcto\", function () {\r",
+									"        const responseData = pm.response.json();\r",
+									"        pm.expect(responseData.length).to.equal(expectedCount);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Calling functions\r",
+									"verifyStatusCode(200);\r",
+									"verifyPostsExist();\r",
+									"verifyPostsCount(100);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}posts",
+							"host": [
+								"{{url}}posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PostId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let getPostTitle = \"optio molestias id quia eum\";\r",
+									"let getPostBody = \"quo et expedita modi cum officia vel magni\\ndoloribus qui repudiandae\\nvero nisi sit\\nquos veniam quod sed accusamus veritatis error\";\r",
+									"\r",
+									"function verifyStatusCode(expectedStatusCode) {\r",
+									"    pm.test(`Status code is ${expectedStatusCode}`, function () {\r",
+									"        pm.response.to.have.status(expectedStatusCode);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"function verifyPostDetails(postId, expectedTitle, expectedBody) {\r",
+									"    pm.test(\"Los detalles del post son correctos\", function () {\r",
+									"        const responseData = pm.response.json();\r",
+									"        pm.expect(responseData.id).to.equal(postId);\r",
+									"        pm.expect(responseData.title).to.equal(expectedTitle);\r",
+									"        pm.expect(responseData.body).to.equal(expectedBody);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Calling Function\r",
+									"verifyStatusCode(200);\r",
+									"verifyPostDetails(10, getPostTitle, getPostBody);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}posts/10",
+							"host": [
+								"{{url}}posts"
+							],
+							"path": [
+								"10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "newPost",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let postTitle = \"Test Title Post 101\";\r",
+									"let postBody = \"Test new post 101\";\r",
+									"\r",
+									"\r",
+									"function verifyStatusCode(expectedStatusCode) {\r",
+									"    pm.test(`Status code is ${expectedStatusCode}`, function () {\r",
+									"        pm.response.to.have.status(expectedStatusCode);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"function verifyPostCreation(expectedTitle, expectedBody) {\r",
+									"    pm.test(\"El post se ha creado correctamente\", function () {\r",
+									"        const responseData = pm.response.json();\r",
+									"        pm.expect(responseData.title).to.equal(expectedTitle);\r",
+									"        pm.expect(responseData.body).to.equal(expectedBody);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Llamada a las funciones\r",
+									"verifyStatusCode(201);\r",
+									"verifyPostCreation(postTitle, postBody);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{  \r\n    \"userId\": 10,\r\n    \"id\": 101,\r\n    \"title\": \"Test Title Post 101\",\r\n    \"body\": \"Test new post 101\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}posts",
+							"host": [
+								"{{url}}posts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let newTitle = \"New Title Test\";\r",
+									"let newBody = \"New body Test\";\r",
+									"\r",
+									"function verifyStatusCode(expectedStatusCode) {\r",
+									"    pm.test(`Status code is ${expectedStatusCode}`, function () {\r",
+									"        pm.response.to.have.status(expectedStatusCode);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"function verifyPostUpdateDetails(postId, expectedTitle, expectedBody) {\r",
+									"    pm.test(\"Los detalles del post se han actualizado correctamente\", function () {\r",
+									"        const responseData = pm.response.json();\r",
+									"        pm.expect(responseData.id).to.equal(postId);\r",
+									"        pm.expect(responseData.title).to.equal(expectedTitle);\r",
+									"        pm.expect(responseData.body).to.equal(expectedBody);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Llamada a las funciones\r",
+									"verifyStatusCode(200);\r",
+									"verifyPostUpdateDetails(100, newTitle, newBody);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": 10,\r\n    \"id\": 100,\r\n    \"title\": \"New Title Test\",\r\n    \"body\": \"New body Test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}posts/100",
+							"host": [
+								"{{url}}posts"
+							],
+							"path": [
+								"100"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"function verifyStatusCode(expectedStatusCode) {\r",
+									"    pm.test(`Status code is ${expectedStatusCode}`, function () {\r",
+									"        pm.response.to.have.status(expectedStatusCode);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"function verifyPostDeletion() {\r",
+									"    pm.test(\"El post se ha eliminado correctamente\", function () {\r",
+									"        const responseData = pm.response.json();\r",
+									"        pm.expect(responseData).to.eql({});\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Calling Functions \r",
+									"verifyStatusCode(200);\r",
+									"verifyPostDeletion();\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}posts/99",
+							"host": [
+								"{{url}}posts"
+							],
+							"path": [
+								"99"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "comments",
+			"item": [
+				{
+					"name": "allComments",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"function verifyStatusCode(expectedStatusCode) {\r",
+									"    pm.test(`Status code is ${expectedStatusCode}`, function () {\r",
+									"        pm.response.to.have.status(expectedStatusCode);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"function verifyCommentCount(expectedCount) {\r",
+									"    pm.test(\"El número de comentarios es correcto\", function () {\r",
+									"        const responseData = pm.response.json();\r",
+									"        pm.expect(responseData.length).to.equal(expectedCount);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Calling Functions\r",
+									"verifyStatusCode(200);\r",
+									"verifyCommentCount(500);  // Cambiar este valor según corresponda\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}comments",
+							"host": [
+								"{{url}}comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CommentById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let commentName = \"perspiciatis magnam ut eum autem similique explicabo expedita\";\r",
+									"let commentBody = \"ut aut maxime officia sed aliquam et magni autem\\nveniam repudiandae nostrum odio enim eum optio aut\\nomnis illo quasi quibusdam inventore explicabo\\nreprehenderit dolor saepe possimus molestiae\";\r",
+									"let email = \"Lura@rod.tv\";\r",
+									"\r",
+									"function verifyStatusCode(expectedStatusCode) {\r",
+									"    pm.test(`Status code is ${expectedStatusCode}`, function () {\r",
+									"        pm.response.to.have.status(expectedStatusCode);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"function verifyCommentDetails(postId, expectedTitle, expectedBody, expectedEmail) {\r",
+									"    pm.test(\"Los detalles del comentario son correctos\", function () {\r",
+									"        const responseData = pm.response.json();\r",
+									"        pm.expect(responseData.id).to.equal(postId);\r",
+									"        pm.expect(responseData.name).to.equal(expectedTitle);\r",
+									"        pm.expect(responseData.body).to.equal(expectedBody);\r",
+									"        pm.expect(responseData.email).to.equal(expectedEmail);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"//Calling functions\r",
+									"verifyStatusCode(200);\r",
+									"verifyCommentDetails(101,commentName,commentBody,email);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}comments/101",
+							"host": [
+								"{{url}}comments"
+							],
+							"path": [
+								"101"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "newComment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let newCommentName = \"New comment Name\";\r",
+									"let newCommentBody = \"New comment Body\";\r",
+									"\r",
+									"function verifyStatusCode(expectedStatusCode) {\r",
+									"    pm.test(`Status code is ${expectedStatusCode}`, function () {\r",
+									"        pm.response.to.have.status(expectedStatusCode);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"function verifyCommentDetails(expectedName, expectedBody) {\r",
+									"    pm.test(\"Los detalles del comentario son correctos\", function () {\r",
+									"        const responseData = pm.response.json();\r",
+									"        pm.expect(responseData.name).to.equal(expectedName);\r",
+									"        pm.expect(responseData.body).to.equal(expectedBody);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Calling Functions\r",
+									"verifyStatusCode(201);\r",
+									"verifyCommentDetails(newCommentName, newCommentBody);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"postId\": 1,\r\n    \"name\": \"New comment Name\",\r\n    \"email\": \"Lew@alysha.tv\",\r\n    \"body\": \"New comment Body\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}comments",
+							"host": [
+								"{{url}}comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "commentId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let commentNameUpdated = \"lore ipsum\";\r",
+									"let commentBodyUpdated = \"new comment body updated\";\r",
+									"\r",
+									"function verifyStatusCode(expectedStatusCode) {\r",
+									"    pm.test(`Status code is ${expectedStatusCode}`, function () {\r",
+									"        pm.response.to.have.status(expectedStatusCode);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"function verifyCommentUpdateDetails(postId, expectedName, expectedBody) {\r",
+									"    pm.test(\"Los detalles del comentario se han actualizado correctamente\", function () {\r",
+									"        const responseData = pm.response.json();\r",
+									"        pm.expect(responseData.id).to.equal(postId);\r",
+									"        pm.expect(responseData.name).to.equal(expectedName);\r",
+									"        pm.expect(responseData.body).to.equal(expectedBody);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Llamada a las funciones\r",
+									"verifyStatusCode(200);\r",
+									"verifyCommentUpdateDetails(492, commentNameUpdated, commentBodyUpdated);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 492,\r\n    \"name\": \"lore ipsum\",\r\n    \"email\": \"Lura@rod.tv\",\r\n    \"body\": \"new comment body updated\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}comments/492",
+							"host": [
+								"{{url}}comments"
+							],
+							"path": [
+								"492"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "commentId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"function verifyStatusCode(expectedStatusCode) {\r",
+									"    pm.test(`Status code is ${expectedStatusCode}`, function () {\r",
+									"        pm.response.to.have.status(expectedStatusCode);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"function verifyCommentDeletion() {\r",
+									"    pm.test(\"El comentario se ha eliminado correctamente\", function () {\r",
+									"        const responseData = pm.response.json();\r",
+									"        pm.expect(responseData).to.eql({});\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Calling Functions\r",
+									"verifyStatusCode(200);\r",
+									"verifyCommentDeletion();"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}comments/499",
+							"host": [
+								"{{url}}comments"
+							],
+							"path": [
+								"499"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "getUsers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"function verifyStatusCode(expectedStatusCode) {\r",
+									"    pm.test(`Status code is ${expectedStatusCode}`, function () {\r",
+									"        pm.response.to.have.status(expectedStatusCode);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"function verifyPostsExist() {\r",
+									"    pm.test(\"Existen posts en la respuesta\", function () {\r",
+									"        const responseData = pm.response.json();\r",
+									"        pm.expect(responseData.length).to.be.greaterThan(0);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Calling functions\r",
+									"verifyStatusCode(200);\r",
+									"verifyPostsExist();\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}users",
+							"host": [
+								"{{url}}users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "userById",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let name = \"Clementine Bauch\";\r",
+									"let username = \"Samantha\";\r",
+									"let email = \"Nathan@yesenia.net\";\r",
+									"\r",
+									"function verifyStatusCode(expectedStatusCode) {\r",
+									"    pm.test(`Status code is ${expectedStatusCode}`, function () {\r",
+									"        pm.response.to.have.status(expectedStatusCode);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"function verifyUserDetails(postId, expectedName, expectedUsername, expectedEmail) {\r",
+									"    pm.test(\"Los detalles del post son correctos\", function () {\r",
+									"        const responseData = pm.response.json();\r",
+									"        pm.expect(responseData.id).to.equal(postId);\r",
+									"        pm.expect(responseData.name).to.equal(expectedName);\r",
+									"        pm.expect(responseData.username).to.equal(expectedUsername);\r",
+									"        pm.expect(responseData.email).to.equal(expectedEmail);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Calling Function\r",
+									"verifyStatusCode(200);\r",
+									"verifyUserDetails(3, name, username, email);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}users/3",
+							"host": [
+								"{{url}}users"
+							],
+							"path": [
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "newUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let name = \"Jose Martinez\";\r",
+									"let username =  \"Martinez\";\r",
+									"let email =  \"Jmartin@baseball.net\";\r",
+									"let phone = \"1-363-321-4947\";\r",
+									"let website = \"ramiro.test\";\r",
+									"\r",
+									"function verifyStatusCode(expectedStatusCode) {\r",
+									"    pm.test(`Status code is ${expectedStatusCode}`, function () {\r",
+									"        pm.response.to.have.status(expectedStatusCode);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"function verifyUserDetails(expectedId, expectedName, expectedUsername, expectedEmail, expectedPhone, expectedWebsite) {\r",
+									"    pm.test(\"Los detalles del comentario son correctos\", function () {\r",
+									"        const responseData = pm.response.json();\r",
+									"        pm.expect(responseData.id).to.equal(expectedId)\r",
+									"        pm.expect(responseData.name).to.equal(expectedName);\r",
+									"        pm.expect(responseData.username).to.equal(expectedUsername);\r",
+									"        pm.expect(responseData.email).to.equal(expectedEmail);\r",
+									"        pm.expect(responseData.phone).to.equal(expectedPhone);\r",
+									"        pm.expect(responseData.website).to.equal(expectedWebsite);\r",
+									"\r",
+									"\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Calling Functions\r",
+									"verifyStatusCode(201);\r",
+									"verifyUserDetails(11, name, username, email, phone, website);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 11,\r\n    \"name\": \"Jose Martinez\",\r\n    \"username\": \"Martinez\",\r\n    \"email\": \"Jmartin@baseball.net\",\r\n    \"address\": {\r\n        \"street\": \"Douglas Point\",\r\n        \"suite\": \"Suite 877\",\r\n        \"city\": \"Doral\",\r\n        \"zipcode\": \"59590-4157\",\r\n        \"geo\": {\r\n            \"lat\": \"-68.6102\",\r\n            \"lng\": \"-47.0653\"\r\n        }\r\n    },\r\n    \"phone\": \"1-363-321-4947\",\r\n    \"website\": \"ramiro.test\",\r\n    \"company\": {\r\n        \"name\": \"Jhonson-Nickelson\",\r\n        \"catchPhrase\": \"Face to face interface\",\r\n        \"bs\": \"e-enable applications\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}users",
+							"host": [
+								"{{url}}users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "userId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"function verifyStatusCode(expectedStatusCode) {\r",
+									"    pm.test(`Status code is ${expectedStatusCode}`, function () {\r",
+									"        pm.response.to.have.status(expectedStatusCode);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"function verifyUserDeletion() {\r",
+									"    pm.test(\"El usuario se ha eliminado correctamente\", function () {\r",
+									"        const responseData = pm.response.json();\r",
+									"        pm.expect(responseData).to.eql({});\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Llamada a las funciones\r",
+									"verifyStatusCode(200);\r",
+									"verifyUserDeletion();"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}users/4",
+							"host": [
+								"{{url}}users"
+							],
+							"path": [
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "userId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let newUserName = \"nuevoNombre\";\r",
+									"let newUsername = \"nuevousername\";\r",
+									"let newEmail = \"newemail@gmail.com\"; \r",
+									"\r",
+									"function verifyStatusCode(expectedStatusCode) {\r",
+									"    pm.test(`Status code is ${expectedStatusCode}`, function () {\r",
+									"        pm.response.to.have.status(expectedStatusCode);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"function verifyUpdatedUserInfo(expectedName, expectedUsername, expectedEmail) {\r",
+									"    pm.test(\"La información del usuario se ha actualizado correctamente\", function () {\r",
+									"        const responseData = pm.response.json();\r",
+									"        pm.expect(responseData.name).to.equal(expectedName);\r",
+									"        pm.expect(responseData.username).to.equal(expectedUsername);\r",
+									"        pm.expect(responseData.email).to.equal(expectedEmail);\r",
+									"    });\r",
+									"}\r",
+									"\r",
+									"// Llamada a las funciones\r",
+									"verifyStatusCode(200);\r",
+									"verifyUpdatedUserInfo(newUserName, newUsername, newEmail);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 3,\r\n    \"name\": \"nuevoNombre\",\r\n    \"username\": \"nuevousername\",\r\n    \"email\": \"newemail@gmail.com\",\r\n    \"address\": {\r\n        \"street\": \"Douglas Extension\",\r\n        \"suite\": \"Suite 847\",\r\n        \"city\": \"McKenziehaven\",\r\n        \"zipcode\": \"59590-4157\",\r\n        \"geo\": {\r\n            \"lat\": \"-68.6102\",\r\n            \"lng\": \"-47.0653\"\r\n        }\r\n    },\r\n    \"phone\": \"1-463-123-4447\",\r\n    \"website\": \"ramiro.info\",\r\n    \"company\": {\r\n        \"name\": \"Romaguera-Jacobson\",\r\n        \"catchPhrase\": \"Face to face bifurcated interface\",\r\n        \"bs\": \"e-enable strategic applications\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}users/3",
+							"host": [
+								"{{url}}users"
+							],
+							"path": [
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "https://jsonplaceholder.typicode.com/"
+		}
+	]
+}
